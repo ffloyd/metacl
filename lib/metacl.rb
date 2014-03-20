@@ -1,5 +1,5 @@
 require "metacl/version"
+require "metacl/dsl"
 
-module Metacl
-  # Your code goes here...
+module MetaCL
 end

@@ -5,7 +5,7 @@ require 'metacl/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "metacl"
-  spec.version       = Metacl::VERSION
+  spec.version       = MetaCL::VERSION
   spec.authors       = ["Roman Kolesnev"]
   spec.email         = ["rvkolesnev@gmail.com"]
   spec.summary       = %q{DSL for prototyping computation apps}
