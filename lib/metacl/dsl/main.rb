@@ -1,5 +1,6 @@
 require 'metacl/utils'
 require 'metacl/dsl/configure'
+require 'metacl/dsl/matrix'
 
 module MetaCL
   module DSL
@@ -7,6 +8,7 @@ module MetaCL
       attr_reader :code
 
       def initialize(&block)
+        super # call initializers from modules
         @code = ""
         instance_eval &block if block_given?
         @code = Utils.apply_template 'wrapper', @lang, code: Utils.tab_text(@code)
@@ -21,17 +23,7 @@ module MetaCL
         @code << "printf(\"#{string.gsub '"', '\"'}\\n\");\n"
       end
 
-      def create_matrix(name, type, n, m)
-        @code << Utils.apply_template('create_matrix', @lang,
-                                      name: name,
-                                      type: type,
-                                      n: n,
-                                      m: m) << "\n"
-      end
-
-      def destroy_matrix(name)
-        @code << Utils.apply_template('destroy_matrix', @lang, name: name) << "\n"
-      end
+      include MetaCL::DSL::Matrix
     end
   end
 end
