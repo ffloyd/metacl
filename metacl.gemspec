@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["rvkolesnev@gmail.com"]
   spec.summary       = %q{DSL for prototyping computation apps}
   spec.description   = %q{DSL that generates C code for different computation platforms (pure C, OpenCL, Intel Phi)}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/ffloyd/metacl"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
