@@ -1,0 +1,12 @@
+for (int i = 0; i < <%= result.m %>; i++)
+{
+    for (int j = 0; j < <%= result.n %>; j++)
+    {
+         <%= result.type %> tmp = 0;
+         for (int r = 0; r < <%= m1.m %>; r++)
+         {
+            tmp += <%= m1.name %>[j + <%= m1.n %>*r] * <%= m2.name %>[r + <%= m2.n %>*i];
+         }
+         <%= result.name %>[j + <%= result.n %>*i] = tmp;
+    }
+}

@@ -51,6 +51,13 @@ module MetaCL
                                       n: @matrices[name_sym].n,
                                       m: @matrices[name_sym].m) << "\n"
       end
+
+      def multiply(name, m1, m2)
+        @code << Utils.apply_template('multiply_matrices', @lang,
+                                      result: @matrices[name.to_sym],
+                                      m1: @matrices[m1.to_sym],
+                                      m2: @matrices[m2.to_sym]) << "\n"
+      end
     end
 
     class MatrixObject
