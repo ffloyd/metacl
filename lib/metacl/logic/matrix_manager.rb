@@ -27,6 +27,10 @@ module MetaCL
 
         self
       end
+
+      def matrix_names
+        @matrices.keys
+      end
     end
   end
 end

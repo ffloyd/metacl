@@ -10,9 +10,11 @@ module MetaCL
 
       def initialize(&block)
         @config_manager = MetaCL::Logic::ConfigManager.new
+        @finalize = []
         super # call initializers from modules
         @code = ""
         instance_eval &block if block_given?
+        @finalize.each(&:call)
         @code = Utils.apply_template 'wrapper', @config_manager.lang, code: Utils.tab_text(@code)
       end
 
