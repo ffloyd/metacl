@@ -9,9 +9,16 @@ module MetaCL
         @finalize << Proc.new { destroy_all_matrices }
       end
 
-      def create_matrix(name, type, n, m)
+      def create_matrix(name, type, n, m, options = {})
         @matrix_manager.add_matrix(name, type, n, m)
-        @code << MetaCL::Utils.apply_template('create_matrix', @config_manager.lang, name: name, type: type, n: n, m: m) << "\n"
+        params = {
+            name: name,
+            type: type,
+            n: n,
+            m: m,
+            fill_with: options[:fill_with]
+        }
+        @code << MetaCL::Utils.apply_template('create_matrix', @config_manager.lang, params) << "\n"
       end
 
       def destroy_matrix(name)

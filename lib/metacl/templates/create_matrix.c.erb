@@ -1,1 +1,6 @@
 <%= type %> *<%= name %> = malloc(<%= n*m %> * sizeof(<%= type %>)); // N = <%= n %>, M = <%= m %>
+<% if fill_with %>
+for (int i = 0; i < <%= n*m %>; i++) {
+    <%= name %>[i] = <%= fill_with %>;
+}
+<% end %>
