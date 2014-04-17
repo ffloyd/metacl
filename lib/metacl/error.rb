@@ -9,11 +9,13 @@ module MetaCL
         MatrixNameDuplication:    'Cannot define matrix: matrix with same name already exists',
         MatrixNotFound:           'Cannot find matrix with given name'
     }.each do |class_name, message|
-      Object.const_set(class_name, Class.new(MetaCLError) do
+      MetaCL::Error.const_set class_name, Class.new(MetaCLError)
+      MetaCL::Error.const_get(class_name).const_set('MESSAGE', message)
+      MetaCL::Error.const_get(class_name).class_eval <<CODE
         def message
           MESSAGE
         end
-      end).const_set('MESSAGE', message)
+CODE
     end
   end
 end
