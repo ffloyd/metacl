@@ -1,12 +1,8 @@
 module MetaCL
   module Program
-    def create(filename = nil, &block)
+    def create(filename)
       begin
-        if filename
-          MetaCL::DSL::Main.new(filename).code
-        else
-          MetaCL::DSL::Main.new(&block).code
-        end
+        MetaCL::DSL::Main.new(filename).code
       rescue MetaCL::Error::MetaCLError => error
         top_eval_error_index = error.backtrace.find_index do |error|
           error =~ /dsl\/main(.+)instance_eval'\z/
