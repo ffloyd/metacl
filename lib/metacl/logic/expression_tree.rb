@@ -34,6 +34,10 @@ module MetaCL
           end
         end
 
+        def names
+          leaves.map(&:name)
+        end
+
         def +(arg)
           Node.new left: self, operator: :+, right: arg.nodify
         end
