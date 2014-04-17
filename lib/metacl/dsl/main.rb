@@ -1,5 +1,7 @@
 module MetaCL
   module DSL
+    using SymbolRefinement
+
     class Main
       attr_reader :code
 
