@@ -36,7 +36,11 @@ module MetaCL
 
         def to_s
           if leaf?
-            @name
+            if @offsets
+              "#{@name}[#{@offsets[:N]},#{@offsets[:M]}"
+            else
+              "#{@name}[0,0]"
+            end
           else
             "(#{@left_node.to_s}) #{@operator} (#{@right_node.to_s})"
           end
