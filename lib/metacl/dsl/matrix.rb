@@ -28,6 +28,11 @@ module MetaCL
           destroy_matrix name
         end
       end
+
+      def calculate_matrix(name, &expression)
+        @matrix_manager.check_matrix name
+        puts MatrixExpression.new(&expression).tree
+      end
     end
   end
 end
