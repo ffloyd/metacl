@@ -8,12 +8,16 @@ module MetaCL
     class Main
       attr_reader :code
 
-      def initialize(&block)
+      def initialize(filename = nil, &block)
         @config_manager = MetaCL::Logic::ConfigManager.new
         @finalize = []
-        super # call initializers from modules
+        super() # call initializers from modules
         @code = ""
-        instance_eval &block if block_given?
+        if filename
+          instance_eval IO.read(filename), filename
+        else
+          instance_eval &block if block_given?
+        end
         @finalize.each(&:call)
         @code = Utils.apply_template 'wrapper', @config_manager.lang, code: Utils.tab_text(@code)
       end
