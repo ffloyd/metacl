@@ -30,8 +30,8 @@ module MetaCL
       end
 
       def calculate_matrix(name, &expression)
-        @matrix_manager.check_matrix name
-        puts MatrixExpression.new(&expression).tree
+        @matrix_manager.check_matrices name
+        puts MatrixExpression.new(&expression).tree.names
       end
     end
   end

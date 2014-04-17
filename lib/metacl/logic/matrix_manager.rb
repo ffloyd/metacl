@@ -30,8 +30,10 @@ module MetaCL
         @matrices.keys
       end
 
-      def check_matrix(name)
-        raise Error::MatrixNotFound unless @matrices.has_key? name
+      def check_matrices(names)
+        (names.is_a?(Array) ? names : [names]).each do |name|
+          raise Error::MatrixNotFound unless @matrices.has_key? name
+        end
       end
     end
   end
