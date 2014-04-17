@@ -1,8 +1,3 @@
-require 'metacl/utils'
-require 'metacl/dsl/configure'
-require 'metacl/logic/config_manager'
-require 'metacl/dsl/matrix'
-
 module MetaCL
   module DSL
     class Main

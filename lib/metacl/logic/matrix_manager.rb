@@ -1,5 +1,3 @@
-require 'metacl/error'
-
 module MetaCL
   module Logic
     Matrix = Struct.new :name, :type, :n, :m

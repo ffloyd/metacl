@@ -1,6 +1,3 @@
-require 'metacl/dsl/main'
-require 'metacl/error'
-
 module MetaCL
   module Program
     def create(filename = nil, &block)

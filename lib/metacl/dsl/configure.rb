@@ -1,5 +1,3 @@
-require 'metacl/logic/config_manager'
-
 module MetaCL
   module DSL
     class Configure

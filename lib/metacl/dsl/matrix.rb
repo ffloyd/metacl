@@ -1,6 +1,3 @@
-require 'metacl/utils'
-require 'metacl/logic/matrix_manager'
-
 module MetaCL
   module DSL
     module Matrix
