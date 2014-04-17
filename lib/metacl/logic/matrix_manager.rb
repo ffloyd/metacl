@@ -31,6 +31,10 @@ module MetaCL
       def matrix_names
         @matrices.keys
       end
+
+      def check_matrix(name)
+        raise MetaCL::Error::MatrixNotFound unless @matrices.has_key? name
+      end
     end
   end
 end
