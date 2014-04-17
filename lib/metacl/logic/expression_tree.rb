@@ -26,6 +26,14 @@ module MetaCL
           self
         end
 
+        def leaves
+          if leaf?
+            [self]
+          else
+            @left_node.leaves + @right_node.leaves
+          end
+        end
+
         def +(arg)
           Node.new left: self, operator: :+, right: arg.nodify
         end
