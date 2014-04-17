@@ -10,9 +10,9 @@ module MetaCL
       end
 
       def add_matrix(name, type, n, m)
-        raise MetaCL::Error::MatrixNameDuplication    if @matrices.has_key? name
-        raise MetaCL::Error::MatrixUnknownElementType unless @config.allowed_types.include? type
-        raise MetaCL::Error::MatrixInvalidSizeParams  if n <= 0 or m <= 0
+        raise Error::MatrixNameDuplication    if @matrices.has_key? name
+        raise Error::MatrixUnknownElementType unless @config.allowed_types.include? type
+        raise Error::MatrixInvalidSizeParams  if n <= 0 or m <= 0
 
         @matrices[name] = Matrix.new(name, type, n, m)
 
@@ -20,7 +20,7 @@ module MetaCL
       end
 
       def delete_matrix(name)
-        raise MetaCL::Error::MatrixNotFound unless @matrices.has_key? name
+        raise Error::MatrixNotFound unless @matrices.has_key? name
         @matrices.delete(name)
 
         self
@@ -31,7 +31,7 @@ module MetaCL
       end
 
       def check_matrix(name)
-        raise MetaCL::Error::MatrixNotFound unless @matrices.has_key? name
+        raise Error::MatrixNotFound unless @matrices.has_key? name
       end
     end
   end

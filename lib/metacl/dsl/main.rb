@@ -6,7 +6,7 @@ module MetaCL
       attr_reader :code
 
       def initialize(filename)
-        @config_manager = MetaCL::Logic::ConfigManager.new
+        @config_manager = Logic::ConfigManager.new
         @finalize = []
         super() # call initializers from modules
         @code = ""
@@ -16,14 +16,14 @@ module MetaCL
       end
 
       def configure(&block)
-        MetaCL::DSL::Configure.new(@config_manager, &block)
+        Configure.new(@config_manager, &block)
       end
 
       def print_s(string)
         @code << "printf(\"#{string.gsub '"', '\"'}\\n\");\n"
       end
 
-      include MetaCL::DSL::Matrix
+      include Matrix
     end
   end
 end

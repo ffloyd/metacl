@@ -2,7 +2,7 @@ module MetaCL
   module DSL
     module Matrix
       def initialize
-        @matrix_manager = MetaCL::Logic::MatrixManager.new(@config_manager)
+        @matrix_manager = Logic::MatrixManager.new(@config_manager)
         @finalize << Proc.new { destroy_all_matrices }
       end
 
@@ -15,12 +15,12 @@ module MetaCL
             m: m,
             fill_with: options[:fill_with]
         }
-        @code << MetaCL::Utils.apply_template('create_matrix', @config_manager.lang, params) << "\n"
+        @code << Utils.apply_template('create_matrix', @config_manager.lang, params) << "\n"
       end
 
       def destroy_matrix(name)
         @matrix_manager.delete_matrix(name)
-        @code << MetaCL::Utils.apply_template('destroy_matrix', @config_manager.lang, name: name) << "\n"
+        @code << Utils.apply_template('destroy_matrix', @config_manager.lang, name: name) << "\n"
       end
 
       def destroy_all_matrices
