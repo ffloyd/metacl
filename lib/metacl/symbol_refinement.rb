@@ -5,10 +5,6 @@ module MetaCL
         Logic::ExpressionTree::Node.new name: self
       end
 
-      def [](n, m)
-        Logic::ExpressionTree::Node.new name: self, offsets: {N: n, M: m}
-      end
-
       def +(arg)
         self.nodify + arg.nodify
       end

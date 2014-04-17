@@ -10,7 +10,7 @@ module MetaCL
           if opts[:name]
             # leaf
             @leaf = true
-            @name, @offsets = opts[:name], opts[:offsets]
+            @name, @params = opts[:name], opts[:params]
           elsif opts[:left] and opts[:right] and opts[:operator]
             #node
             @leaf = false
@@ -36,10 +36,10 @@ module MetaCL
 
         def to_s
           if leaf?
-            if @offsets
-              "#{@name}[#{@offsets[:N]},#{@offsets[:M]}"
+            if @params
+              "#{@name}[#{ @params.map { |k, v| "#{k}: #{v}"}.join ', ' }]"
             else
-              "#{@name}[0,0]"
+              "#{@name}"
             end
           else
             "(#{@left_node.to_s}) #{@operator} (#{@right_node.to_s})"
