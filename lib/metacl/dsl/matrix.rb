@@ -29,9 +29,9 @@ module MetaCL
         end
       end
 
-      def calculate_matrix(name, &expression)
-        @matrix_manager.check_matrices name
-        puts MatrixExpression.new(&expression).tree.names
+      def calculate_matrix(name, &block)
+        expression = MatrixExpression.new(&block)
+        @matrix_manager.check_matrices expression.tree.names + [name]
       end
     end
   end
