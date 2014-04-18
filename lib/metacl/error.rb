@@ -7,7 +7,8 @@ module MetaCL
         MatrixUnknownElementType: 'Cannot define matrix: unknown element type',
         MatrixInvalidSizeParams:  'Cannot define matrix: invalid size params',
         MatrixNameDuplication:    'Cannot define matrix: matrix with same name already exists',
-        MatrixNotFound:           'Cannot find matrix with given name' # TODO: what name?
+        MatrixNotFound:           'Cannot find matrix with given name', # TODO: what name?
+        MatrixMismatchSizes:      'Mismatch sizes of matrices'
     }.each do |class_name, message|
       MetaCL::Error.const_set class_name, Class.new(MetaCLError)
       MetaCL::Error.const_get(class_name).const_set('MESSAGE', message)

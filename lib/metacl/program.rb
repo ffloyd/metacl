@@ -3,7 +3,7 @@ module MetaCL
     def create(filename)
       begin
         DSL::Main.new(filename).code
-      rescue Error::MetaCLError => error
+      rescue Error::MetaCLError => error # TODO: filter backtrace output using filename
         top_eval_error_index = error.backtrace.find_index do |error|
           error =~ /dsl\/main(.+)instance_eval'\z/
         end

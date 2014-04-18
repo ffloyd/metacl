@@ -19,6 +19,10 @@ module MetaCL
         self
       end
 
+      def [](name)
+        @matrices[name]
+      end
+
       def delete_matrix(name)
         raise Error::MatrixNotFound unless @matrices.has_key? name
         @matrices.delete(name)
@@ -30,7 +34,7 @@ module MetaCL
         @matrices.keys
       end
 
-      def check_matrices(names)
+      def check_matrix_names(names)
         (names.is_a?(Array) ? names : [names]).each do |name|
           raise Error::MatrixNotFound unless @matrices.has_key? name
         end
