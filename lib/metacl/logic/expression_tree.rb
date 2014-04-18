@@ -2,7 +2,7 @@ module MetaCL
   module Logic
     module ExpressionTree
       class Node
-        attr_reader   :left_node, :right_node, :operator, :name, :params
+        attr_reader   :left_child, :right_child, :operator, :name, :params
 
         using SymbolRefinement
 
@@ -15,7 +15,7 @@ module MetaCL
           elsif opts[:left] and opts[:right] and opts[:operator]
             #node
             @leaf = false
-            @left_node, @right_node, @operator = opts[:left], opts[:right], opts[:operator]
+            @left_child, @right_child, @operator = opts[:left], opts[:right], opts[:operator]
           end
         end
 
@@ -31,7 +31,7 @@ module MetaCL
           if leaf?
             [self]
           else
-            @left_node.leaves + @right_node.leaves
+            @left_child.leaves + @right_child.leaves
           end
         end
 
@@ -41,8 +41,8 @@ module MetaCL
 
         def walk(&block)
           unless leaf?
-            @left_node.walk(&block)
-            @right_node.walk(&block)
+            @left_child.walk(&block)
+            @right_child.walk(&block)
           end
           yield self
         end
@@ -63,7 +63,7 @@ module MetaCL
               "#{@name}"
             end
           else
-            "(#{@left_node.to_s}) #{@operator} (#{@right_node.to_s})"
+            "(#{@left_child.to_s}) #{@operator} (#{@right_child.to_s})"
           end
         end
       end

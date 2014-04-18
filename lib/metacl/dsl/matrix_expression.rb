@@ -19,8 +19,8 @@ module MetaCL
             matrix = @matrix_manager[node.name]
             node.params[:size] = [matrix.n, matrix.m]
           else
-            if node.left_node.params[:size] == node.right_node.params[:size]
-              node.params[:size] = node.left_node.params[:size].dup
+            if node.left_child.params[:size] == node.right_child.params[:size]
+              node.params[:size] = node.left_child.params[:size].dup
             else
               raise Error::MatrixMismatchSizes
             end
