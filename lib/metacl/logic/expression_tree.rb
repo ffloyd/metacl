@@ -2,15 +2,16 @@ module MetaCL
   module Logic
     module ExpressionTree
       class Node
-        attr_reader :left_node, :right_node, :operator, :name, :offsets
+        attr_reader   :left_node, :right_node, :operator, :name, :params
 
         using SymbolRefinement
 
         def initialize(opts={})
+          @params = (opts[:params] or {})
           if opts[:name]
             # leaf
             @leaf = true
-            @name, @params = opts[:name], opts[:params]
+            @name = opts[:name]
           elsif opts[:left] and opts[:right] and opts[:operator]
             #node
             @leaf = false
@@ -36,6 +37,14 @@ module MetaCL
 
         def names
           leaves.map(&:name)
+        end
+
+        def walk(&block)
+          unless leaf?
+            @left_node.walk(&block)
+            @right_node.walk(&block)
+          end
+          yield self
         end
 
         def +(arg)
