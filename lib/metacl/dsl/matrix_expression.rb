@@ -7,23 +7,29 @@ module MetaCL
         @matrix_manager = matrix_manager
         @result_matrix  = @matrix_manager[result_matrix_name]
         @tree = instance_eval(&block)
-        check_matrices
+        prepare_tree
       end
 
-      def check_matrices
-        @matrix_manager.check_matrix_names tree.names
+      def prepare_tree
+        temp_var_letter = 't'
+        temp_var_number = 1
 
-        # check sizes
         tree.walk do |node|
           if node.leaf?
+            @matrix_manager.check_matrix_names node.name
             matrix = @matrix_manager[node.name]
             node.params[:size] = [matrix.n, matrix.m]
           else
+            # check sizes
             if node.left_child.params[:size] == node.right_child.params[:size]
               node.params[:size] = node.left_child.params[:size].dup
             else
               raise Error::MatrixMismatchSizes
             end
+
+            # chose temp variable
+            node.params[:temp_var] = "#{temp_var_letter}#{temp_var_number}"
+            temp_var_number += 1
           end
         end
 
