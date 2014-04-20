@@ -55,16 +55,19 @@ module MetaCL
           Node.new left: self, operator: :-, right: arg.nodify
         end
 
-        def to_s
+        def print(tab = 0)
+          text = ''
+          params_text = @params ? "{ #{ @params.map { |k, v| "#{k}: #{v}"}.join ', ' } }" : ''
           if leaf?
-            if @params
-              "#{@name}[#{ @params.map { |k, v| "#{k}: #{v}"}.join ', ' }]"
-            else
-              "#{@name}"
-            end
+            text << '  ' * tab << @name.to_s << ' ' << params_text << "\n"
           else
-            "(#{@left_child.to_s}) #{@operator} (#{@right_child.to_s})"
+            text << @left_child.print(tab+1) << '  ' * tab << "operator#{@operator} " << params_text << "\n" << @right_child.print(tab+1)
           end
+          text
+        end
+
+        def to_s
+          print
         end
       end
     end
