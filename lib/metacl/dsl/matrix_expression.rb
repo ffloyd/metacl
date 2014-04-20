@@ -3,8 +3,9 @@ module MetaCL
     class MatrixExpression
       attr_accessor :tree
 
-      def initialize(matrix_manager, result_matrix_name, &block)
+      def initialize(matrix_manager, config_manager, result_matrix_name, options = {}, &block)
         @matrix_manager = matrix_manager
+        @config_manager = config_manager
         @result_matrix  = @matrix_manager[result_matrix_name]
         @tree = instance_eval(&block)
         prepare_tree
