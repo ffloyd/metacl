@@ -3,6 +3,8 @@ module MetaCL
     using SymbolRefinement
 
     class Main
+      include Matrix
+
       attr_reader :code
 
       def initialize(filename)
@@ -22,8 +24,6 @@ module MetaCL
       def print_s(string)
         @code << "printf(\"#{string.gsub '"', '\"'}\\n\");\n"
       end
-
-      include Matrix
     end
   end
 end
