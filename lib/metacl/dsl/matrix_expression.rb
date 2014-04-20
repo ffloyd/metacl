@@ -27,6 +27,7 @@ module MetaCL
             @matrix_manager.check_matrix_names node.name
             matrix = @matrix_manager[node.name]
             node.params[:size] = [matrix.n, matrix.m]
+            node.params[:type] = matrix.type
           else
             # check sizes
             if node.left_child.params[:size] == node.right_child.params[:size]
@@ -36,7 +37,8 @@ module MetaCL
             end
 
             # chose temp variable
-            node.params[:var] = "#{@temp_var_letter}#{temp_var_number}"
+            node.params[:var]   = "#{@temp_var_letter}#{temp_var_number}"
+            node.params[:type]  = node.left_child.params[:type]
             temp_var_number += 1
           end
         end
@@ -50,12 +52,16 @@ module MetaCL
             matrix = @matrix_manager[node.name]
             node.params[:var]   = "#{node.name}[#{@n_iterator}*#{matrix.m} + #{@m_iterator}]"
           else
-            node.params[:code] = node.left_child.params[:code].to_s + node.right_child.params[:code].to_s
-            node.params[:code]  << "#{node.params[:var]} = #{node.left_child.params[:var]} #{node.operator} #{node.right_child.params[:var]};\n"
+            if [:+, :-].include? node.operator
+              node.params[:code] = node.left_child.params[:code].to_s + node.right_child.params[:code].to_s
+              node.params[:code]  << "#{node.params[:type]} #{node.params[:var]} = #{node.left_child.params[:var]} #{node.operator} #{node.right_child.params[:var]};\n"
+            end
           end
         end
 
-        inner_code = Utils.tab_text(@tree.params[:code] || @tree.params[:var], 2)
+        inner_code = @tree.params[:code] || @tree.params[:var]
+        inner_code << "#{@result_matrix.name}[#{@n_iterator}*#{@result_matrix.m} + #{@m_iterator}] = #{@tree.params[:var]};\n"
+        inner_code = Utils.tab_text(inner_code, 2)
         @code = Utils.apply_template('me_wrapper', @config_manager.lang, n_index: 'i', m_index: 'j', n: @result_matrix.n, m: @result_matrix.m, code: inner_code)
       end
     end

@@ -31,7 +31,7 @@ module MetaCL
 
       def calculate_matrix(name, &block)
         expression = MatrixExpression.new(@matrix_manager, @config_manager, name, &block)
-        puts expression.code
+        code << expression.code << "\n"
       end
     end
   end
