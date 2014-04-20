@@ -47,6 +47,15 @@ module MetaCL
           yield self
         end
 
+        def reduce(init = '', &block)
+          memo = init
+          unless leaf?
+            @left_child.walk(memo, &block)
+            @right_child.walk(memo, &block)
+          end
+          yield memo, self
+        end
+
         def +(arg)
           Node.new left: self, operator: :+, right: arg.nodify
         end
