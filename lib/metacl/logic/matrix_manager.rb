@@ -20,6 +20,7 @@ module MetaCL
       end
 
       def [](name)
+        check_matrix_names name
         @matrices[name]
       end
 

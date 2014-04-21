@@ -33,6 +33,11 @@ module MetaCL
         expression = MatrixExpression.new(@matrix_manager, @config_manager, name, &block)
         code << expression.code << "\n"
       end
+
+      def print_matrix(name)
+        matrix = @matrix_manager[name]
+        code << Utils.apply_template('print_matrix', @config_manager.lang, name: name, n: matrix.n, m: matrix.m) << "\n"
+      end
     end
   end
 end
