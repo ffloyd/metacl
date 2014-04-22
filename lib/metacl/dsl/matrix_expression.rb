@@ -11,6 +11,7 @@ module MetaCL
         @n_iterator       = options[:n_iterator]      || 'i'
         @m_iterator       = options[:m_iterator]      || 'j'
         @temp_var_letter  = options[:temp_var_letter] || 't'
+        @temp_idx_letter  = options[:temp_var_letter] || 'k'
 
         @tree = instance_eval(&block)
         prepare_tree
@@ -47,10 +48,21 @@ module MetaCL
       end
 
       def code_generation
+        # indexes generation
+        @tree.rwalk do |node, parent|
+          n_iterator, m_iterator =  if parent
+                                      [ parent.params[:n_iterator], parent.params[:m_iterator] ]
+                                    else
+                                      [ @n_iterator, @m_iterator ]
+                                    end
+          node.params[:n_iterator] = n_iterator
+          node.params[:m_iterator] = m_iterator
+        end
+
         @tree.walk do |node|
           if node.leaf?
             matrix = @matrix_manager[node.name]
-            node.params[:var]   = "#{node.name}[#{@n_iterator}*#{matrix.m} + #{@m_iterator}]"
+            node.params[:var]   = "#{node.name}[#{node.params[:n_iterator]}*#{matrix.m} + #{node.params[:m_iterator]}]"
           else
             if [:+, :-].include? node.operator
               node.params[:code] = node.left_child.params[:code].to_s + node.right_child.params[:code].to_s
@@ -62,7 +74,12 @@ module MetaCL
         inner_code = @tree.params[:code] || @tree.params[:var]
         inner_code << "#{@result_matrix.name}[#{@n_iterator}*#{@result_matrix.m} + #{@m_iterator}] = #{@tree.params[:var]};\n"
         inner_code = Utils.tab_text(inner_code, 2)
-        @code = Utils.apply_template('me_wrapper', @config_manager.lang, n_index: 'i', m_index: 'j', n: @result_matrix.n, m: @result_matrix.m, code: inner_code)
+        @code = Utils.apply_template('me_wrapper', @config_manager.lang,
+                                     n_iterator: 'i',
+                                     m_iterator: 'j',
+                                     n: @result_matrix.n,
+                                     m: @result_matrix.m,
+                                     code: inner_code)
       end
     end
   end

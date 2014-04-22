@@ -47,13 +47,12 @@ module MetaCL
           yield self
         end
 
-        def reduce(init = '', &block)
-          memo = init
+        def rwalk(parent = nil, &block)
+          yield self, parent
           unless leaf?
-            @left_child.walk(memo, &block)
-            @right_child.walk(memo, &block)
+            @left_child.rwalk  self, &block
+            @right_child.rwalk self, &block
           end
-          yield memo, self
         end
 
         def +(arg)
