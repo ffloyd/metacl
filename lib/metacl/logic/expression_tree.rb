@@ -3,6 +3,7 @@ module MetaCL
     module ExpressionTree
       class Node
         attr_reader   :left_child, :right_child, :operator, :name, :params
+        attr_accessor :code
 
         using SymbolRefinement
 
@@ -23,16 +24,25 @@ module MetaCL
           @leaf
         end
 
+        def [](key)
+          @params[key]
+        end
+
+        def []=(key, val)
+          @params[key] = val
+        end
+
         def nodify
           self
         end
 
+        def nodes
+          result = []
+          walk { |node| result << node }
+        end
+
         def leaves
-          if leaf?
-            [self]
-          else
-            @left_child.leaves + @right_child.leaves
-          end
+          nodes.select(&:leaf?)
         end
 
         def names
@@ -61,6 +71,10 @@ module MetaCL
 
         def -(arg)
           Node.new left: self, operator: :-, right: arg.nodify
+        end
+
+        def *(arg)
+          Node.new left: self, operator: :*, right: arg.nodify
         end
 
         def print(tab = 0)
