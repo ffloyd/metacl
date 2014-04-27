@@ -24,6 +24,10 @@ module MetaCL
       def print_s(string)
         @code << "printf(\"#{string.gsub '"', '\"'}\\n\");\n"
       end
+
+      def direct(string)
+        @code << string << "\n"
+      end
     end
   end
 end
