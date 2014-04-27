@@ -3,6 +3,11 @@ module MetaCL
     class MetaCLError < StandardError; end
 
     {
+        # vars errors
+        VarNameDuplication:       'Cannot define variable: variable with same name already exists',
+        VarUnknownType:           'Cannot define variable: unknown element type',
+        VarNotFound:              'Cannot find matrix with given name',
+
         # matrices errors
         MatrixUnknownElementType: 'Cannot define matrix: unknown element type',
         MatrixInvalidSizeParams:  'Cannot define matrix: invalid size params',

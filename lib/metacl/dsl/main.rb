@@ -9,6 +9,7 @@ module MetaCL
 
       def initialize(filename)
         @config_manager = Logic::ConfigManager.new
+        @var_manager    = Logic::VarManager.new(@config_manager)
         @finalize = []
         super() # call initializers from modules
         @code = ""
@@ -27,6 +28,13 @@ module MetaCL
 
       def direct(string)
         @code << string << "\n"
+      end
+
+      def define_var(name, type, opts = {})
+        @var_manager.add_var name, type
+        unless opts[:nocode]
+          @code << Utils.apply_template('define_var', @config_manager.lang, name: name, type: type, assign: opts[:assign]) << "\n"
+        end
       end
     end
   end
