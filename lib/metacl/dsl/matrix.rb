@@ -29,8 +29,8 @@ module MetaCL
         end
       end
 
-      def calculate_matrix(name, &block)
-        expression = MatrixExpression.new(@matrix_manager, @config_manager, name, &block)
+      def calculate_matrix(name, opts = {}, &block)
+        expression = MatrixExpression.new(@matrix_manager, @config_manager, name, opts, &block)
         code << expression.code << "\n"
       end
 

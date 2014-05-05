@@ -13,6 +13,9 @@ module MetaCL
         @temp_var_letter  = options[:temp_var_letter] || 't'
         @temp_idx_letter  = options[:temp_idx_letter] || 'k'
 
+        @from = options[:from]
+        @to   = options[:to]
+
         @tree = instance_eval(&block)
         prepare_tree
         code_generation
@@ -21,6 +24,7 @@ module MetaCL
       private
 
       def prepare_tree
+        border_check
         tree_names_check
         tree_operators_check
         tree_type_gencheck
@@ -48,10 +52,10 @@ module MetaCL
         inner_code << "#{@result_matrix.name}[#{@n_iterator}*#{@result_matrix.m} + #{@m_iterator}] = #{@tree[:var]};"
 
         @code = Utils.apply_template 'me_wrapper', @config_manager.lang,
-                                     n: @result_matrix.n,
-                                     m: @result_matrix.m,
                                      n_iterator: @n_iterator,
                                      m_iterator: @m_iterator,
+                                     from: @from,
+                                     to:   @to,
                                      code: Utils.tab_text(inner_code, 2)
       end
 
@@ -172,6 +176,15 @@ module MetaCL
         node.code = ''
         node.code << init_var << "\n"
         node.code << cycle_code
+      end
+
+      def border_check
+        correct_border  = -> (x, b_name) { x >= 0 and x < @result_matrix.send(b_name) }
+        correct_from    = correct_border.call(@from[0], :n) and correct_border.call(@from[1], :m)
+        correct_to      = correct_border.call(@to[0], :n)   and correct_border.call(@to[1], :m)
+        unless correct_from and correct_to
+          raise Error::InvalidBorders
+        end
       end
     end
   end

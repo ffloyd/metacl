@@ -15,7 +15,9 @@ module MetaCL
         MatrixNotFound:           'Cannot find matrix with given name', # TODO: what name?
         MatrixMismatchSizes:      'Mismatch sizes of matrices',
         MatrixMismatchTypes:      'Mismatch types of matrices',
-        UnknownOperator:          'Unknown operator'
+        UnknownOperator:          'Unknown operator',
+
+        InvalidBorders:           'Borders are out of matrix size'
     }.each do |class_name, message|
       MetaCL::Error.const_set class_name, Class.new(MetaCLError)
       MetaCL::Error.const_get(class_name).const_set('MESSAGE', message)
