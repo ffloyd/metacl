@@ -2,8 +2,7 @@ module MetaCL
   module Logic
     module ExpressionTree
       class Node
-        attr_reader   :left_child, :right_child, :operator, :name, :params
-        attr_accessor :code
+        attr_accessor   :left_child, :right_child, :operator, :name, :params, :code
 
         using SymbolRefinement
 
@@ -18,6 +17,10 @@ module MetaCL
             @leaf = false
             @left_child, @right_child, @operator = opts[:left], opts[:right], opts[:operator]
           end
+        end
+
+        def deep_clone
+          Marshal.load(Marshal.dump(self)) # TODO: write a proper solution
         end
 
         def leaf?

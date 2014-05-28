@@ -2,7 +2,8 @@ module MetaCL
   module DSL
     module Matrix
       def initialize
-        @matrix_manager = Logic::MatrixManager.new(@config_manager)
+        @matrix_manager   = Logic::MatrixManager.new(@config_manager)
+        @partial_manager  = Logic::PartialManager.new(@config_manager)
         @finalize << Proc.new { destroy_all_matrices }
       end
 
@@ -30,8 +31,12 @@ module MetaCL
       end
 
       def calculate_matrix(name, opts = {}, &block)
-        expression = MatrixExpression.new(@matrix_manager, @config_manager, name, opts, &block)
+        expression = MatrixExpression.new(@matrix_manager, @config_manager, @partial_manager, name, opts, &block)
         code << expression.code << "\n"
+      end
+
+      def partial_expression(name, *params, &block)
+        PartialExpression.new(@partial_manager, name, params, &block)
       end
 
       def print_matrix(name)

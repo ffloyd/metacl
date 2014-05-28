@@ -17,7 +17,11 @@ module MetaCL
         MatrixMismatchTypes:      'Mismatch types of matrices',
         UnknownOperator:          'Unknown operator',
 
-        InvalidBorders:           'Borders are out of matrix size'
+        InvalidBorders:           'Borders are out of matrix size',
+
+        # partials errors
+        PartialNameDuplication:   'Cannot define partial: partial with same name already exists',
+        PartialNotFound:          'Cannot find partial with given name'
     }.each do |class_name, message|
       MetaCL::Error.const_set class_name, Class.new(MetaCLError)
       MetaCL::Error.const_get(class_name).const_set('MESSAGE', message)

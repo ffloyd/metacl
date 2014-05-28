@@ -3,10 +3,11 @@ module MetaCL
     class MatrixExpression
       attr_accessor :tree, :code
 
-      def initialize(matrix_manager, config_manager, result_matrix_name, options = {}, &block)
-        @matrix_manager = matrix_manager
-        @config_manager = config_manager
-        @result_matrix  = @matrix_manager[result_matrix_name]
+      def initialize(matrix_manager, config_manager, partial_manager, result_matrix_name, options = {}, &block)
+        @matrix_manager   = matrix_manager
+        @config_manager   = config_manager
+        @partial_manager  = partial_manager
+        @result_matrix    = @matrix_manager[result_matrix_name]
 
         @n_iterator       = options[:n_iterator]      || 'i'
         @m_iterator       = options[:m_iterator]      || 'j'
@@ -16,7 +17,7 @@ module MetaCL
         @from = options[:from]
         @to   = options[:to]
 
-        @tree = instance_eval(&block)
+        @tree = PartialExpression.new(partial_manager, &block).tree
         prepare_tree
         code_generation
       end
