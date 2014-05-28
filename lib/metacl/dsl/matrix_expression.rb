@@ -73,6 +73,14 @@ module MetaCL
         end
       end
 
+      def equal_if_fixnum?(x, y)
+        if x.is_a? Fixnum and y.is_a? Fixnum
+          (x == y)
+        else
+          true
+        end
+      end
+
       def tree_size_gencheck
         @tree.walk do |node|
           if node.leaf?
@@ -82,12 +90,12 @@ module MetaCL
 
             case node.operator
               when :+, :-
-                if (node.left_child[:n] != node.right_child[:n]) or (node.left_child[:m] != node.right_child[:m])
+                unless equal_if_fixnum?(node.left_child[:n], node.right_child[:n]) and equal_if_fixnum?(node.left_child[:m], node.right_child[:m])
                   raise Error::MatrixMismatchSizes
                 end
                 node[:n], node[:m] = node.left_child[:n], node.left_child[:m]
               when :*
-                if node.left_child[:m] != node.right_child[:n]
+                unless equal_if_fixnum?(node.left_child[:m], node.right_child[:n])
                   raise Error::MatrixMismatchSizes
                 end
                 node[:n], node[:m]  = node.left_child[:n], node.right_child[:m]
@@ -179,10 +187,14 @@ module MetaCL
         node.code << cycle_code
       end
 
+      def correct_border(x, b_name)
+        return true unless x.is_a? Fixnum
+        x >= 0 and x < @result_matrix.send(b_name)
+      end
+
       def border_check
-        correct_border  = -> (x, b_name) { x >= 0 and x < @result_matrix.send(b_name) }
-        correct_from    = correct_border.call(@from[0], :n) and correct_border.call(@from[1], :m)
-        correct_to      = correct_border.call(@to[0], :n)   and correct_border.call(@to[1], :m)
+        correct_from    = correct_border(@from[0], :n) and correct_border(@from[1], :m)
+        correct_to      = correct_border(@to[0], :n)   and correct_border(@to[1], :m)
         unless correct_from and correct_to
           raise Error::InvalidBorders
         end

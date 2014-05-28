@@ -12,7 +12,8 @@ module MetaCL
       def add_matrix(name, type, n, m)
         raise Error::MatrixNameDuplication    if @matrices.has_key? name
         raise Error::MatrixUnknownElementType unless @config.allowed_types.include? type
-        raise Error::MatrixInvalidSizeParams  if n <= 0 or m <= 0
+        raise Error::MatrixInvalidSizeParams  if n.is_a? Fixnum and n <= 0
+        raise Error::MatrixInvalidSizeParams  if m.is_a? Fixnum and m <= 0
 
         @matrices[name] = Matrix.new(name, type, n, m)
 
