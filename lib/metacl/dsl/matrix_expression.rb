@@ -14,8 +14,8 @@ module MetaCL
         @temp_var_letter  = options[:temp_var_letter] || 't'
         @temp_idx_letter  = options[:temp_idx_letter] || 'k'
 
-        @from = options[:from]
-        @to   = options[:to]
+        @from = options[:from] || [0, 0]
+        @to   = options[:to]   || [@result_matrix.n, @result_matrix.m]
 
         @tree = PartialExpression.new(partial_manager, &block).tree
         prepare_tree
@@ -189,7 +189,7 @@ module MetaCL
 
       def correct_border(x, b_name)
         return true unless x.is_a? Fixnum
-        x >= 0 and x < @result_matrix.send(b_name)
+        x >= 0 and x <= @result_matrix.send(b_name)
       end
 
       def border_check
