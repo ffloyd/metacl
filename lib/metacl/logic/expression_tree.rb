@@ -27,11 +27,11 @@ module MetaCL
           @leaf
         end
 
-        def [](key)
+        def get(key)
           @params[key]
         end
 
-        def []=(key, val)
+        def set(key, val)
           @params[key] = val
         end
 
