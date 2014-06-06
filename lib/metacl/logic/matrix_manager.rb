@@ -38,7 +38,9 @@ module MetaCL
 
       def check_matrix_names(names)
         (names.is_a?(Array) ? names : [names]).each do |name|
-          raise Error::MatrixNotFound unless @matrices.has_key? name
+          unless name.kind_of? Numeric
+            raise Error::MatrixNotFound unless @matrices.has_key? name
+          end
         end
       end
     end

@@ -39,6 +39,8 @@ module MetaCL
         PartialExpression.new(@partial_manager, name, params, &block)
       end
 
+      alias_method :define_operator, :partial_expression
+
       def print_matrix(name)
         matrix = @matrix_manager[name]
         code << Utils.apply_template('print_matrix', @config_manager.lang, name: name, n: matrix.n, m: matrix.m) << "\n"

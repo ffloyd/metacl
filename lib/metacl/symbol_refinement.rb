@@ -21,5 +21,11 @@ module MetaCL
         self.nodify[*args]
       end
     end
+
+    refine Numeric do
+      def nodify
+        Logic::ExpressionTree::Node.new name: self
+      end
+    end
   end
 end

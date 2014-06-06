@@ -40,7 +40,7 @@ module MetaCL
             codegen_leaf(node)
           else
             case node.operator
-              when :+, :-
+              when :+, :-, :/
                 codegen_plus_minus(node)
               when :*
                 codegen_mult(node)
@@ -84,9 +84,11 @@ module MetaCL
       def tree_size_gencheck
         @tree.walk do |node|
           if node.leaf?
-            matrix = @matrix_manager[node.name]
-            node.set :n, matrix.n
-            node.set :m, matrix.m
+            unless node.name.kind_of? Numeric
+              matrix = @matrix_manager[node.name]
+              node.set :n, matrix.n
+              node.set :m, matrix.m
+            end
           else
 
             case node.operator
@@ -115,7 +117,11 @@ module MetaCL
       def tree_type_gencheck
         @tree.walk do |node|
           if node.leaf?
-            node.set :type, @matrix_manager[node.name].type
+            if node.name.kind_of? Numeric
+              node.set :type, :float
+            else
+              node.set :type, @matrix_manager[node.name].type
+            end
           else
             if node.left_child.get(:type) != node.right_child.get(:type)
               raise Error::MatrixMismatchTypes
@@ -166,7 +172,12 @@ module MetaCL
             matrix = @matrix_manager[node.name]
             i_expr = gen_index_expr node.i_expr, node.get(:n_iterator), node.get(:m_iterator)
             j_expr = gen_index_expr node.j_expr, node.get(:n_iterator), node.get(:m_iterator)
-            node.set :var, "#{node.name}[(#{i_expr})*#{matrix.m} + (#{j_expr})]"
+            if node.name.kind_of? Numeric
+              node.set :var, "#{node.name}"
+            else
+              node.set :var, "#{node.name}[(#{i_expr})*#{matrix.m} + (#{j_expr})]"
+            end
+
           else
             tmp_vars_count += 1
             node.set :var, "#{@temp_var_letter}#{tmp_vars_count}"
@@ -189,6 +200,8 @@ module MetaCL
       end
 
       def codegen_mult(node)
+        return codegen_plus_minus(node) if node.left_child.name.kind_of?(Numeric) or node.right_child.name.kind_of?(Numeric)
+
         init_var  = "#{node.get(:type)} #{node.get(:var)} = 0;"
 
         inner_code = ''
