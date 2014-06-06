@@ -16,6 +16,10 @@ module MetaCL
       def *(arg)
         self.nodify * arg.nodify
       end
+
+      def [](*args)
+        self.nodify[*args]
+      end
     end
   end
 end

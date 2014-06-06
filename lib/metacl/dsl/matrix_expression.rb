@@ -151,12 +151,22 @@ module MetaCL
         end
       end
 
+      def gen_index_expr(expr, n_iterator, m_iterator)
+        if expr.kind_of? Fixnum
+          expr
+        else
+          expr.gen_string(n_iterator, m_iterator)
+        end
+      end
+
       def tree_vars_gen
         tmp_vars_count = 0
         @tree.walk do |node|
           if node.leaf?
             matrix = @matrix_manager[node.name]
-            node.set :var, "#{node.name}[#{node.get(:n_iterator)}*#{matrix.m} + #{node.get(:m_iterator)}]"
+            i_expr = gen_index_expr node.i_expr, node.get(:n_iterator), node.get(:m_iterator)
+            j_expr = gen_index_expr node.j_expr, node.get(:n_iterator), node.get(:m_iterator)
+            node.set :var, "#{node.name}[(#{i_expr})*#{matrix.m} + (#{j_expr})]"
           else
             tmp_vars_count += 1
             node.set :var, "#{@temp_var_letter}#{tmp_vars_count}"

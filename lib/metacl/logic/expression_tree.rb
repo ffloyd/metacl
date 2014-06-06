@@ -2,7 +2,8 @@ module MetaCL
   module Logic
     module ExpressionTree
       class Node
-        attr_accessor   :left_child, :right_child, :operator, :name, :params, :code
+        attr_accessor :left_child, :right_child, :operator, :name,
+                      :params, :code, :i_expr, :j_expr
 
         using SymbolRefinement
 
@@ -17,6 +18,8 @@ module MetaCL
             @leaf = false
             @left_child, @right_child, @operator = opts[:left], opts[:right], opts[:operator]
           end
+          @i_expr = IndexArg.new(:i)
+          @j_expr = IndexArg.new(:j)
         end
 
         def deep_clone
@@ -36,6 +39,11 @@ module MetaCL
         end
 
         def nodify
+          self
+        end
+
+        def [](i_index, j_index)
+          @i_expr, @j_expr = i_index, j_index
           self
         end
 

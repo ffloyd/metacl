@@ -18,6 +18,14 @@ module MetaCL
         substitution = partial.params.map.with_index { |param, index| [param, args[index]] }.to_h
         partial.get_tree_with_substitution(substitution)
       end
+
+      def i
+        return Logic::IndexArg.new(:i)
+      end
+
+      def j
+        return Logic::IndexArg.new(:j)
+      end
     end
   end
 end
