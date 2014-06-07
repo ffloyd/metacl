@@ -1,6 +1,6 @@
 module MetaCL
   module DSL
-    using SymbolRefinement
+    using Refinements
 
     class Main
       include Matrix

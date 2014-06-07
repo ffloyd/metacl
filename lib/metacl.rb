@@ -2,7 +2,7 @@ require 'metacl/version'
 require 'metacl/error'
 require 'metacl/utils'
 
-require 'metacl/symbol_refinement'
+require 'metacl/refinements'
 
 require 'metacl/logic'
 require 'metacl/dsl'

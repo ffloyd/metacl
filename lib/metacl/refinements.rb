@@ -1,5 +1,5 @@
 module MetaCL
-  module SymbolRefinement
+  module Refinements
     refine Symbol do
       def nodify
         Logic::ExpressionTree::Node.new name: self

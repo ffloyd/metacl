@@ -5,7 +5,7 @@ module MetaCL
         attr_accessor :left_child, :right_child, :operator, :name,
                       :params, :code, :i_expr, :j_expr
 
-        using SymbolRefinement
+        using Refinements
 
         def initialize(opts={})
           @params = (opts[:params] or {})
