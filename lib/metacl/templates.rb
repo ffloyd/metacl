@@ -1,2 +1,5 @@
 require 'metacl/templates/wrapper'
 require 'metacl/templates/prints'
+require 'metacl/templates/init_numeric'
+require 'metacl/templates/init_array'
+require 'metacl/templates/init_matrix'

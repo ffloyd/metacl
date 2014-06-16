@@ -1,0 +1,1 @@
+require 'metacl/logic/resource_manager'

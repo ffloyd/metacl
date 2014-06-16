@@ -1,0 +1,1 @@
+std::vector<{{type}}> {{name}}({{length}}{{#fill_with}}, {{fill_with}}{{/fill_with}});

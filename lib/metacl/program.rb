@@ -1,10 +1,11 @@
 module MetaCL
   class Program
-    attr_accessor :code, :platform
+    attr_accessor :code, :platform, :resources
 
     def initialize(filename)
-      @code     = DSL::Root.new(self, filename).code
-      @platform = :cpp
+      @platform   = :cpp
+      @resources  = Logic::ResourceManager.new
+      @code       = DSL::Root.new(self, filename).code
     end
 
     def set_platform(platform)

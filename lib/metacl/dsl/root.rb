@@ -4,6 +4,7 @@ module MetaCL
       attr_reader :code
 
       include Directs
+      include DataDefinitions
 
       def initialize(program, filename)
         @program = program
