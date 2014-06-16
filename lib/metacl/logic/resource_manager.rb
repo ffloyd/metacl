@@ -17,6 +17,10 @@ module MetaCL
         @namespace[name] = OpenStruct.new(name: name, klass: :matrix, type: type, size_n: size_n, size_m: size_m)
       end
 
+      def add_expression(name, root_node, args = [])
+        @namespace[name] = OpenStruct.new(name: name, klass: :expression, args: args, root_node: root_node)
+      end
+
       def numerics
         @namespace.values.select { |e| e.klass == :numeric }
       end
@@ -27,6 +31,14 @@ module MetaCL
 
       def matrices
         @namespace.values.select { |e| e.klass == :matrix }
+      end
+
+      def expressions
+        @namespace.values.select { |e| e.klass == :expression }
+      end
+
+      def expressions_hash
+        Hash[expressions.map { |e| [e.name, e] }]
       end
 
       def [](arg)

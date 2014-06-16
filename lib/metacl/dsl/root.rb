@@ -6,6 +6,8 @@ module MetaCL
       include Directs
       include DataDefinitions
 
+      using Refinements
+
       def initialize(program, filename)
         @program = program
         super() # call initializers from modules
@@ -23,6 +25,11 @@ module MetaCL
 
       def prints(string)
         @inner_code << Templates::Prints.render(string, @program.platform) << "\n"
+      end
+
+      def expression(name, *args, &block)
+        tree = Expression.construct(@program, &block)
+        @program.resources.add_expression(name, tree, args)
       end
     end
   end
