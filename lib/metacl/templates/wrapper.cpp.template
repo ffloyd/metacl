@@ -1,0 +1,9 @@
+#include <cstdio>
+
+{{{outer_code}}}
+
+int main()
+{
+{{{inner_code}}}
+    return 0;
+}
