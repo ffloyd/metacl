@@ -25,7 +25,7 @@ module MetaCL
       def matrix(name, size_n, size_m, options = {})
         type = options[:init]
 
-        @program.resources.add_array name, size_n, size_m
+        @program.resources.add_matrix name, size_n, size_m, type
 
         if options[:init]
           @inner_code << Templates::InitMatrix.render(name, type, size_n, size_m, options[:fill_with], @program.platform) << "\n"

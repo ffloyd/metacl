@@ -31,6 +31,16 @@ module MetaCL
         tree = Expression.construct(@program, &block)
         @program.resources.add_expression(name, tree, args)
       end
+
+      def apply_expression(matrix_name, options = {}, &block)
+        expr = Expression.construct(@program, &block)
+        @inner_code << ExpressionApplicator.construct(@program, expr, matrix_name, options) << "\n"
+      end
+
+      def print_matrix(name)
+        matrix = @program.resources.matrices_hash[name]
+        @inner_code << Templates::PrintMatrix.render(matrix.name, matrix.size_n, matrix.size_m, @program.platform)
+      end
     end
   end
 end

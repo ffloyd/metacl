@@ -1,1 +1,1 @@
-std::vector< std::vector<{{type}}> > {{name}}({{size_n}}, vector<{{type}}>({{size_m}}{{#fill_with}}, {{fill_with}}{{/fill_with}}));
+std::vector<{{type}}> {{name}}({{size_n}} * {{size_m}}{{#fill_with}}, {{fill_with}}{{/fill_with}});

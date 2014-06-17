@@ -22,8 +22,9 @@ module MetaCL
         self
       end
 
-      def [](i_index, j_index = nil)
-        @i_expr, @j_expr = i_index, j_index
+      def [](index_i, index_j = nil)
+        params.index_i = index_i
+        params.index_j = index_j
         self
       end
 

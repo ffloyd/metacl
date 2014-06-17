@@ -41,6 +41,10 @@ module MetaCL
         Hash[expressions.map { |e| [e.name, e] }]
       end
 
+      def matrices_hash
+        Hash[matrices.map { |e| [e.name, e] }]
+      end
+
       def [](arg)
         @namespace[arg]
       end
