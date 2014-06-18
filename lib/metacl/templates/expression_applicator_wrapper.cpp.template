@@ -2,6 +2,6 @@ for (int i = {{n_from}}; i < {{n_to}}; ++i)
 {
     for (int j = {{m_from}}; j < {{m_to}}; ++j)
     {
-{{code}}
+{{{code}}}
     }
 }

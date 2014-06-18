@@ -8,6 +8,14 @@ module MetaCL
         @tree = instance_eval(&block)
       end
 
+      def sum(index, from, to, expression)
+        Logic::Node.new :aggregator, expression, nil, index: index, from: from, to: to, type: :+
+      end
+
+      def mul(index, from, to, expression)
+        Logic::Node.new :aggregator, expression, nil, index: index, from: from, to: to, type: :*
+      end
+
       def method_missing(name, *args)
         sub_expression = @program.resources.expressions_hash[name.to_sym]
         substitution = sub_expression.args.map.with_index { |param, index| [param, args[index]] }.to_h

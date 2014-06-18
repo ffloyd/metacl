@@ -1,7 +1,7 @@
 module MetaCL
   module Templates
     class InitArray < Mustache
-      attr_accessor :name, :type, :length, :fill_with
+      attr_reader :name, :type, :length, :fill_with
 
       def render(name, type, length, fill_with, platform)
         @name, @type, @length, @fill_with = name, type, length, fill_with

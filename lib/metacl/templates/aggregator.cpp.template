@@ -1,0 +1,6 @@
+{{type}} {{var}} = 0;
+for (int {{iterator}} = {{from}}; {{iterator}} < {{to}}; ++{{iterator}})
+{
+{{{code}}}
+    {{var}} {{operator}}= {{subresult_var}};
+}

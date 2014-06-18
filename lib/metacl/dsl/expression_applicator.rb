@@ -45,7 +45,7 @@ module MetaCL
                 when :numeric
                   node.params.var = data.name
               end
-            when :operator
+            when :operator, :aggregator
               vars_count += 1
               node.params.var = @var_letter + vars_count.to_s
             when :const
@@ -63,6 +63,24 @@ module MetaCL
               left_code   = node.left_child.params.code   || ''
               right_code  = node.right_child.params.code  || ''
               node.params.code = left_code + right_code + "float #{node.params.var} = #{left_var} #{node.params.type} #{right_var};\n"
+            when :aggregator
+              code          = node.left_child.params.code || ''
+              subresult_var = node.left_child.params.var
+              iterator      = node.params.index
+              from, to      = node.params.from, node.params.to
+              type          = 'float'
+              var           = node.params.var
+              operator      = node.params.type
+              node.params.code = Templates::Aggregator.render(@program.platform,
+                                                              code: code,
+                                                              subresult_var: subresult_var,
+                                                              iterator: iterator,
+                                                              from: from,
+                                                              to: to,
+                                                              type: type,
+                                                              var: var,
+                                                              operator: operator
+              ) + "\n"
           end
         end
 
