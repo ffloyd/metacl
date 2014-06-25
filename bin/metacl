@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+require 'metacl'
+
+source = ARGV[0]
+dest   = ARGV[1] || source.gsub('mcl', 'cpp')
+
+code = MetaCL::Program.create source
+
+File.open(dest, 'w') { |file| file.write(code) }
