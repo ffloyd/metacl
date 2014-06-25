@@ -6,7 +6,7 @@ module MetaCL
       def render(matrix_name, size_n, size_m, platform)
         @size_n, @size_m, @matrix_name = size_n, size_m, matrix_name
 
-        super IO.read("#{__dir__}/print_matrix.#{platform}.template")
+        super IO.read("#{__dir__}/print_matrix.any.template")
       end
     end
   end

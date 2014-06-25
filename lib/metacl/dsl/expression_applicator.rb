@@ -15,7 +15,7 @@ module MetaCL
         prepare_tree
         code_generation
 
-        @code = Templates::ExpressionApplicatorWrapper.render(@left_border, @right_border, @expr.params.code || '', @program.platform)
+        @code = Templates::ExpressionApplicatorWrapper.render(@left_border, @right_border, @expr.params.code || '', @expr.objects, @result_matrix, @program.platform)
       end
 
       def self.construct(program, expr, result_matrix, options = {})
@@ -37,6 +37,7 @@ module MetaCL
               index_i = node.params.index_i || 'i'
               index_j = node.params.index_j || 'j'
               data    = @program.resources[node.params.name]
+              node.params.object = data
               case data.klass
                 when :matrix
                   node.params.var = "#{data.name}[(#{index_i})*#{data.size_m} + (#{index_j})]"

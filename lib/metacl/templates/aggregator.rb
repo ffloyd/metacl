@@ -6,7 +6,7 @@ module MetaCL
       def render(platform, options = {})
         @type, @var, @iterator, @from, @to, @subresult_var, @operator, @code = options.values_at(:type, :var, :iterator, :from, :to, :subresult_var, :operator, :code)
         @code = Utils.tab_text(@code)
-        super IO.read("#{__dir__}/aggregator.#{platform}.template")
+        super IO.read("#{__dir__}/aggregator.any.template")
       end
     end
   end

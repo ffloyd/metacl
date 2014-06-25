@@ -1,0 +1,2 @@
+std::vector<{{type}}> {{name}}({{size_n}} * {{size_m}}{{#fill_with}}, {{fill_with}}{{/fill_with}});
+cl::Buffer buffer_{{name}}(context,CL_MEM_READ_WRITE,sizeof({{type}})*{{size_n}}*{{size_m}});

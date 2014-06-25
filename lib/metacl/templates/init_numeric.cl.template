@@ -1,0 +1,2 @@
+{{type}} {{name}}{{#value}} = {{value}}{{/value}};
+cl::Buffer buffer_{{name}}(context, CL_MEM_READ_WRITE, sizeof({{type}}));

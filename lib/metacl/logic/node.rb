@@ -43,6 +43,10 @@ module MetaCL
         nodes.select(&:leaf?)
       end
 
+      def objects
+        leaves.map { |x| x.params.object }.compact.uniq
+      end
+
       def +(arg)
         Node.new :operator, self, arg.nodify, type: :+
       end
