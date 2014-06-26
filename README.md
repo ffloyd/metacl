@@ -18,7 +18,11 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    $ metacl some.mcl
+    
+Translates some.mcl to some.cpp. Example compile command for OS X (also you must have cl.hpp in OpenCL folder):
+
+    $ clang++ -framework OpenCL -stdlib=libc++ -std=gnu++11 some.cpp
 
 ## Contributing
 
