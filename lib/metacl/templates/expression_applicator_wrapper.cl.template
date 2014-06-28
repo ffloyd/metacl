@@ -12,10 +12,6 @@ if(program.build({default_device})!=CL_SUCCESS){
 //create queue to which we will push commands for the device.
 cl::CommandQueue queue(context,default_device);
 
-{{{push_buffers}}}
-
 auto metacl_program = cl::make_kernel<{{{template_params}}}>(program, "metacl_program");
 cl::EnqueueArgs eargs(queue, cl::NullRange, cl::NDRange({{n_to}} - {{n_from}}, {{m_to}} - {{m_from}}), cl::NullRange);
 metacl_program(eargs, {{{kernel_params}}}).wait();
-
-{{{pop_buffer}}}

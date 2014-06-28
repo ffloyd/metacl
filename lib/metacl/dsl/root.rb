@@ -5,6 +5,7 @@ module MetaCL
 
       include Directs
       include DataDefinitions
+      include GPUTransfers
 
       using Refinements
 
