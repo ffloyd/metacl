@@ -1,9 +1,11 @@
 module MetaCL
   module DSL
     class ExpressionApplicator
-      attr_reader :code
+      @@counter = 0
+      attr_reader :code, :init_code
 
       def initialize(program, expr, result_matrix, options = {})
+        @@counter += 1
         @program, @expr = program, expr.deep_clone
         @result_matrix  = program.resources.matrices_hash[result_matrix]
 
@@ -15,11 +17,17 @@ module MetaCL
         prepare_tree
         code_generation
 
-        @code = Templates::ExpressionApplicatorWrapper.render(@left_border, @right_border, @expr.params.code || '', @expr.objects, @result_matrix, @program.platform)
+        @init_code = if @program.platform == :cl
+                       Templates::KernelInit.render(@left_border, @right_border, @expr.params.code || '', @result_matrix, @expr.objects, @@counter, @program.platform)
+                     else
+                       ''
+                     end
+        @code = Templates::ExpressionApplicatorWrapper.render(@left_border, @right_border, @expr.params.code || '', @expr.objects, @result_matrix, @@counter, @program.platform)
       end
 
       def self.construct(program, expr, result_matrix, options = {})
-        ExpressionApplicator.new(program, expr, result_matrix, options).code
+        e = ExpressionApplicator.new(program, expr, result_matrix, options)
+        [e.code, e.init_code]
       end
 
       def prepare_tree

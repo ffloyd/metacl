@@ -1,4 +1,4 @@
-void kernel metacl_program({{{params}}}) {
+void kernel metacl_program{{counter}}({{{params}}}) {
     int i = get_global_id(0) + {{n_from}};
     int j = get_global_id(1) + {{m_from}};
 {{{code}}}

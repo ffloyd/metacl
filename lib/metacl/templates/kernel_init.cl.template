@@ -1,0 +1,16 @@
+cl::Program::Sources sources{{counter}};
+
+std::string kernel_code{{counter}} =
+{{{kernel_code}}}
+
+sources{{counter}}.push_back({kernel_code{{counter}}.c_str(),kernel_code{{counter}}.length()});
+
+cl::Program program{{counter}}(context,sources{{counter}});
+if(program{{counter}}.build({default_device})!=CL_SUCCESS){
+    std::cout<<" Error building: "<<program{{counter}}.getBuildInfo<CL_PROGRAM_BUILD_LOG>(default_device)<<"\n";
+    exit(1);
+}
+
+auto metacl_program{{counter}} = cl::make_kernel<{{{template_params}}}>(program{{counter}}, "metacl_program{{counter}}");
+
+cl::EnqueueArgs eargs{{counter}}(queue, cl::NullRange, cl::NDRange({{n_to}} - {{n_from}}, {{m_to}} - {{m_from}}), cl::NullRange);

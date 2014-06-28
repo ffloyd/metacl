@@ -5,6 +5,7 @@
 
 int main()
 {
+{{{post_init_code}}}
 {{{inner_code}}}
     return 0;
 }

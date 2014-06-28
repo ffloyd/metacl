@@ -31,7 +31,10 @@ int main(){
 
     cl::Context context({default_device});
 
-    cl::Program::Sources sources;
+    //create queue to which we will push commands for the device.
+    cl::CommandQueue queue(context,default_device);
+
+{{{post_init_code}}}
 
 {{{inner_code}}}
 

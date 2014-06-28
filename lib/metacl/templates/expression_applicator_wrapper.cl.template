@@ -1,17 +1,1 @@
-std::string kernel_code =
-{{{kernel_code}}}
-
-sources.push_back({kernel_code.c_str(),kernel_code.length()});
-
-cl::Program program(context,sources);
-if(program.build({default_device})!=CL_SUCCESS){
-    std::cout<<" Error building: "<<program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(default_device)<<"\n";
-    exit(1);
-}
-
-//create queue to which we will push commands for the device.
-cl::CommandQueue queue(context,default_device);
-
-auto metacl_program = cl::make_kernel<{{{template_params}}}>(program, "metacl_program");
-cl::EnqueueArgs eargs(queue, cl::NullRange, cl::NDRange({{n_to}} - {{n_from}}, {{m_to}} - {{m_from}}), cl::NullRange);
-metacl_program(eargs, {{{kernel_params}}}).wait();
+metacl_program{{counter}}(eargs{{counter}}, {{{kernel_params}}}).wait();

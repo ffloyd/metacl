@@ -12,12 +12,13 @@ module MetaCL
       def initialize(program, filename)
         @program = program
         super() # call initializers from modules
-        @inner_code = ""
-        @outer_code = ""
+        @inner_code     = ""
+        @post_init_code = ""
+        @outer_code     = ""
 
         instance_eval IO.read(filename), filename
 
-        @code = Templates::Wrapper.render(@inner_code, @outer_code, @program.platform)
+        @code = Templates::Wrapper.render(@inner_code, @post_init_code, @outer_code, @program.platform)
       end
 
       def platform(name)
@@ -35,7 +36,9 @@ module MetaCL
 
       def apply_expression(matrix_name, options = {}, &block)
         expr = Expression.construct(@program, &block)
-        @inner_code << ExpressionApplicator.construct(@program, expr, matrix_name, options) << "\n"
+        code, init_code = ExpressionApplicator.construct(@program, expr, matrix_name, options)
+        @inner_code << code << "\n"
+        @post_init_code << init_code << "\n"
       end
 
       def print_matrix(name)
