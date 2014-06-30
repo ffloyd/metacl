@@ -1,0 +1,1 @@
+for (int iterator{{counter}} = 0; iterator{{counter}} < {{repeats}}; ++iterator{{counter}}) {

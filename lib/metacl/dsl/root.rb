@@ -26,7 +26,7 @@ module MetaCL
       end
 
       def prints(string)
-        @inner_code << Templates::Prints.render(string, @program.platform) << "\n"
+        @inner_code << Templates::Prints.render(string, @program.platform) << "\n\n"
       end
 
       def expression(name, *args, &block)
@@ -37,13 +37,19 @@ module MetaCL
       def apply_expression(matrix_name, options = {}, &block)
         expr = Expression.construct(@program, &block)
         code, init_code = ExpressionApplicator.construct(@program, expr, matrix_name, options)
-        @inner_code << code << "\n"
-        @post_init_code << init_code << "\n"
+        @inner_code << code << "\n\n"
+        @post_init_code << init_code << "\n\n"
       end
 
       def print_matrix(name)
         matrix = @program.resources.matrices_hash[name]
         @inner_code << Templates::PrintMatrix.render(matrix.name, matrix.size_n, matrix.size_m, @program.platform)
+      end
+
+      def repeat(count, &block)
+        @inner_code << Templates::Iterate.render(count) << "\n"
+        instance_eval(&block)
+        @inner_code << "}\n\n"
       end
     end
   end

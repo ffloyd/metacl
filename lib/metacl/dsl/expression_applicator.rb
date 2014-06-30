@@ -6,7 +6,14 @@ module MetaCL
 
       def initialize(program, expr, result_matrix, options = {})
         @@counter += 1
-        @program, @expr = program, expr.deep_clone
+        @program = program
+        @expr = if expr.kind_of? Logic::Node
+                  expr.deep_clone
+                elsif expr.kind_of? Symbol
+                  Logic::Node.new :data, nil, nil, name: expr
+                elsif expr.kind_of? Numeric
+                  Logic::Node.new :const, nil, nil, data: expr
+                end
         @result_matrix  = program.resources.matrices_hash[result_matrix]
 
         @left_border  = options[:from]  || [0, 0]
@@ -93,6 +100,7 @@ module MetaCL
           end
         end
 
+        @expr.params.code ||= ''
         @expr.params.code += "#{@result_matrix.name}[i*#{@result_matrix.size_m} + j] = #{@expr.params.var};\n"
       end
     end

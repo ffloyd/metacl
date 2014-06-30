@@ -12,9 +12,8 @@ module MetaCL
             when :numeric
               # TODO: @push_buffers << "queue.enqueueWriteBuffer(buffer_#{x.name},CL_TRUE,0,sizeof(#{x.type}),#{x.name};\n"
           end
-
-          @result
         end
+        @result || ''
       end
     end
   end
