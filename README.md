@@ -1,3 +1,7 @@
+# Abadoned!
+
+I wrote this code for my diploma project. Code is very draft and i had no time to fix it. Unfortunately, this project dead now - no one was interested in its development after the exams.
+
 # Metacl
 
 DSL that generates C code for different computation platforms (pure C, OpenCL, Intel Phi)
